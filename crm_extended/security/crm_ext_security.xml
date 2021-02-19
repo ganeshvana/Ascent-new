@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="0">
+        <record model="res.groups" id="group_show_cohort">
+            <field name="name">Group Show Cohort</field>
+        </record>
+        <record model="res.groups" id="group_show_pivot">
+            <field name="name">Group Show download</field>
+        </record>
+    </data>
+</odoo>

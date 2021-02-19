@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="group_restriction_user_enable" model="res.groups">
+            <field name="name">Restriction User</field>
+        </record>
+        <record id="group_restriction_create_enable" model="res.groups">
+            <field name="name">Restriction List Create</field>
+        </record>
+        
+        <record id="group_restriction_form_create_enable" model="res.groups">
+            <field name="name">Restriction Form Create</field>
+        </record>
+        <record id="group_restriction_edit_enable" model="res.groups">
+            <field name="name">Restriction Edit</field>
+        </record>
+        <record id="group_restriction_import_enable" model="res.groups">
+            <field name="name">Restriction Import</field>
+        </record>
+        <record id="group_restriction_salesperson_enable" model="res.groups">
+            <field name="name">Restriction Salesperson</field>
+        </record>
+        <record id="group_restriction_salesteam_enable" model="res.groups">
+            <field name="name">Restriction Salesteam</field>
+        </record>
+        <record id="group_restriction_kanban_enable" model="res.groups">
+            <field name="name">Restriction Import in Kanban</field>
+        </record>
+        <record id="group_restriction_create_kanban_enable" model="res.groups">
+            <field name="name">Restriction Create and Import in Kanban</field>
+        </record>
+        <record id="group_edit_disable_won_lost_stage" model="res.groups">
+            <field name="name">No Edit in Won/Lost Stage</field>
+        </record>
+        <record id="restrict_export_lead" model="res.groups">
+            <field name="name">Restrict Export - Lead</field>
+        </record>
+
+        <record id="group_enable_contacts" model="res.groups">
+            <field name="name">Enable Contacts</field>
+        </record>
+
+        <record id="group_disable_action_menu" model="res.groups">
+            <field name="name">Disable Action</field>
+        </record>
+    </data>
+</odoo>

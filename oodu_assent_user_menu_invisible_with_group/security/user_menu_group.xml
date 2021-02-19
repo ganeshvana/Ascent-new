@@ -1,0 +1,7 @@
+<odoo>
+
+	<record id="make_invisible_menus" model="res.groups">
+    <field name="name">User Menu</field>
+	</record>
+	
+</odoo>

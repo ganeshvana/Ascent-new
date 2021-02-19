@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" inherit_id="web.assets_backend" name="web action Extended Assets" priority="1">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/web_action_disable/static/src/js/sidebar.js"></script>
+        </xpath>
+    </template>
+</odoo>

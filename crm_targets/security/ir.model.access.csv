@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_target_user,access_crm_target,model_crm_target,base.group_user,1,0,0,0
+access_crm_target_admin,access_crm_target,model_crm_target,base.group_system,1,1,1,1
+access_target_line,access_crm_target,model_crm_target_line,,1,1,1,1

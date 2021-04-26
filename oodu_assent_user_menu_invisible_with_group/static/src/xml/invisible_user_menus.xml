@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+        
+<templates id="template" xml:space="preserve">
+            
+        
+
+    <t t-extend="UserMenu.Actions" >
+        
+        <t t-jquery="a[data-menu='documentation'],[data-menu='support'],[data-menu='settings'],[data-menu='account'],[data-menu='shortcuts']" t-operation='replace'>
+            
+        </t>
+    </t>
+    
+    
+    
+     
+    
+
+    <t t-extend="UserMenu.Actions" >
+        
+        <t t-jquery=".dropdown-divider" t-operation='replace' >
+            
+        </t>
+    </t>
+
+
+    
+
+
+</templates>
+
+
+
+
+    
+
+
+
+

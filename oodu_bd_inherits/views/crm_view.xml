@@ -1,0 +1,577 @@
+<?xml version="1.0"?>
+<odoo>
+<!--    Contracting-->
+        <record id="crm_lead_form" model="ir.ui.view">
+            <field name="name">crm.lead.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header/field[@name='stage_id']" position="replace">
+                    <field name="stage_id" widget="statusbar"
+
+                            clickable="False" on_change="_onchange(stage_id)"/>
+                    </xpath>
+                <xpath expr="//form/header" position="inside">
+                    <button name="%(action_drop_wizard)d" string="Dropped" type="action" class="oe_highlight" attrs="{'invisible': ['|','|','|',  ('active','=',False), ('probability', '=', 10), ('type', '=', 'lead'),('probability', 'in', (0,100))]}"/>
+                </xpath>
+                <xpath expr="//form/header" position="inside">
+                    <button name="%(action_crm_qualify_wizard)d" string="Qualified OUT" type="action" class="oe_highlight" attrs="{'invisible': ['|',('probability', '=', 10),('probability', 'in', (0,100))]}"/>
+                </xpath>
+               
+             
+                <xpath expr="//form/header/button[@name='toggle_active']" position="replace">
+                    <button name="toggle_active" string="Restore" type="object"
+                            attrs="{'invisible': ['|', '|', ('probability', '&gt;', 0), ('active', '=', True), ('probability', '=', 0)]}"/>
+                </xpath>
+                <xpath expr="//form/header/button[@name='action_set_won_rainbowman']" position="replace">
+                   
+                    <button name="%(oodu_bd_inherits.action_won_wizard)d" string="Mark Won" type="action" class="oe_highlight" attrs="{'invisible': ['|',('probability', '&lt;', 60),('probability', '=', 100)]}"/>
+                </xpath>
+                <xpath expr="//form/header/button[@name='%(crm.crm_lead_lost_action)d']" position="replace">
+                    <button name="%(crm.crm_lead_lost_action)d" string="Mark Lost"
+                            type="action" class="oe_highlight" context="{'default_lead_id': active_id}" attrs="{'invisible': ['|','|','|',   ('type', '=', 'lead'),('active', '=', False),('probability', '&lt;', 60),('probability', '=', 100)]}"/>
+                </xpath>
+
+                <field name="phone" position="after">
+                    <field name="alias_name" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="customer_id" string="Company ID" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="no_of_employees" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="no_of_locations" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="oppurtunity" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="opportunity_type_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="industry_id"/>
+                    <field name="drop_reason_id" invisible="1"/>
+                    <field name="qualify_reason_id" invisible="1"/>
+                </field>
+                <field name="date_deadline" position="replace">
+                    <field name="date_deadline" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <field name="tag_ids" position="replace">
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <field name="priority" position="after">
+                    <field name="weighted_revenue" invisible="1"/>
+                </field>
+                <field name="lost_reason" position="replace">
+                    <field name="lost_reason" attrs="{'readonly': [('probability', 'in', (0,100))]}" invisible="1"/>
+                </field>
+                <field name="tag_ids" position="after">
+                    <field name="tenture_of_contract" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="contract_entity_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="delivering_entity_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="category_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="competition_primary_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" string="Primary Competition" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="competition_secondary_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" string="Secondary Competition" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="competition_others_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" string="Others Competition " attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+
+                    <field name="customer_contracting_entity" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    <field name="won_reason_id" attrs="{'readonly': [('probability', 'in', (0,100))]}" invisible="1"/>
+
+                </field>
+                <field name="description" position="replace">
+                    <field name="description" placeholder="Add a description..." attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <field name="team_id" position="replace">
+                    <field name="team_id" widget="selection"  attrs="{'readonly': [('probability', 'in', (0,100))]}"
+                                    domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]"/>
+                </field>
+                <xpath expr="//form/sheet/notebook/page[3]/group/group[1]" position="replace">
+                    <group string="Contact Information">
+                        <field name="partner_name" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                        <label for="street" string="Address"/>
+                        <div class="o_address_format">
+                            <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <field name="city" placeholder="City" class="o_address_city" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}' attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                        </div>
+                        <field name="website" widget="url" placeholder="e.g. https://www.odoo.com" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                        <field name="lang_id" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[3]/group/group[2]" position="replace">
+                    <group class="mt48">
+                        <label for="contact_name"/>
+                        <div class="o_row">
+                            <field name="contact_name" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}' attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                        </div>
+                        <field name="function" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                        <field name="mobile" widget="phone" options="{'enable_sms': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[3]/group/group[4]/field[@name='referred']" position="replace">
+                    <field name="referred" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </xpath>
+
+
+                <xpath expr="//form/sheet/group/group[2]/field[@name='partner_id']" position="replace">
+                    <field name="partner_id"
+                                    widget="res_partner_many2one"
+                                    string="Company Name"
+                                    context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
+                                        'default_name': contact_name or partner_name,
+                                        'default_street': street,
+                                        'default_is_company': type == 'opportunity' and contact_name == False,
+                                        'default_company_name': type == 'opportunity' and partner_name,
+                                        'default_street2': street2,
+                                        'default_city': city,
+                                        'default_title': title,
+                                        'default_state_id': state_id,
+                                        'default_zip': zip,
+                                        'default_country_id': country_id,
+                                        'default_function': function,
+                                        'default_phone': phone,
+                                        'default_mobile': mobile,
+                                        'default_email': email_from,
+                                        'default_user_id': user_id,
+                                        'default_team_id': team_id,
+                                        'default_website': website,
+                                        'show_vat': True,
+                                    }" attrs="{'readonly': [('probability', 'in', (0,100))]}" required="1"
+                                options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" />
+                </xpath>
+
+                <xpath expr="//form/sheet/widget[@name='web_ribbon']" position="replace">
+                    <widget name="web_ribbon" text="Lost" bg_color="bg-danger" attrs="{'invisible': [('lost_reason', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//form/sheet/div[1]" position="after">
+                    <widget name="web_ribbon" text="Dropped" bg_color="bg-danger"  attrs="{'invisible': [('drop_reason_id', '=', False)]}"/>
+                    <widget name="web_ribbon" text="Qualified Out" bg_color="bg-danger" attrs="{'invisible': [('qualify_reason_id', '=', False)]}" />
+                </xpath>
+                <field name="name" position="replace">
+                    <field name="name" required="0" invisible="1"/>
+                    <field name="services_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <field name="planned_revenue" position="replace">
+                    <field name="planned_revenue" class="oe_inline" widget='monetary' options="{'currency_field': 'company_currency'}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <field name="user_id" position="replace">
+                     <field name="user_id" domain="[('share', '=', False)]"
+                                    context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'sales_team.group_sale_salesman_all_leads'], 'team_id': team_id}" options="{'no_create_edit': True, 'no_create': True}" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <field name="email_from" position="replace">
+                     <field name="email_from"
+                                        attrs="{'invisible': [('partner_address_email', '!=', False)],'readonly': [('probability', 'in', (0,100))]}" string="Email" widget="email"/>
+                </field>
+                <field name="phone" position="replace">
+                    <field name="phone"
+                                    widget="phone" options="{'enable_sms': True}"
+                                    attrs="{'invisible':  [('partner_address_phone', '!=', False)],'readonly': [('probability', 'in', (0,100))]}"/>
+                </field>
+                <xpath expr="//sheet/div/h2/div[2]" position="replace">
+                    <div class="col">
+                        <span class="oe_edit_only o_pls_probability">
+                            <label for="probability" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            </span>
+                        <div id="probability" class="o_row d-flex">
+                            <field name="is_automated_probability" invisible="1"/>
+                            <field name="probability" widget="float" class="oe_inline" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                            <span class="oe_grey"> %%</span>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//notebook/page[3]/group/group[3]" position="replace">
+                    <group string="Marketing">
+                        <field name="campaign_id" invisible="1"/>
+                        <field name="medium_id" invisible="1"/>
+                        <field name="source_id" string="Lead Source" attrs="{'readonly': [('probability', 'in', (0,100))]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="view_lead_inherit">
+            <field name="name">view.lead.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="groups_id" eval="[(6, 0, [ref('oodu_bd_inherits.group_enable_contacts')])]"/>
+            <field name="arch" type="xml">
+            
+                <xpath expr="//form/sheet/group/group[2]/field[@name='partner_id']" position="replace">
+                    <field name="partner_id"
+                                    widget="res_partner_many2one"
+                                    string="Company Name"
+                                    context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
+                                        'default_name': contact_name or partner_name,
+                                        'default_street': street,
+                                        'default_is_company': type == 'opportunity' and contact_name == False,
+                                        'default_company_name': type == 'opportunity' and partner_name,
+                                        'default_street2': street2,
+                                        'default_city': city,
+                                        'default_title': title,
+                                        'default_state_id': state_id,
+                                        'default_zip': zip,
+                                        'default_country_id': country_id,
+                                        'default_function': function,
+                                        'default_phone': phone,
+                                        'default_mobile': mobile,
+                                        'default_email': email_from,
+                                        'default_user_id': user_id,
+                                        'default_team_id': team_id,
+                                        'default_website': website,
+                                        'show_vat': True,
+                                    }" domain="[('is_company', '=', True)]" required="1" attrs="{'readonly': [('probability', 'in', (0,100))]}"
+                                options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" />
+                </xpath>
+                
+            </field>
+        </record>
+
+
+    <record id="crm_stage_form_inherits" model="ir.ui.view">
+            <field name="name">crm.stage.form.inherits</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form"/>
+            <field name="arch" type="xml">
+                <field name="team_id" position="after">
+                    <field name="probability_value"/>
+                    <field name="dropped"/>
+                    <field name="qualified_out"/>
+                    <field name="lost"/>
+                </field>
+            </field>
+    </record>
+
+    <record id="crm_wizard_inherits" model="ir.ui.view">
+            <field name="name">crm.wizard.inherits</field>
+            <field name="model">crm.lead.lost</field>
+            <field name="inherit_id" ref="crm.crm_lead_lost_view_form"/>
+            <field name="arch" type="xml">
+                <field name="lost_reason_id" position="replace">
+                    <field name="lost_reason_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}"/>
+                </field>
+            </field>
+    </record>
+
+    <record id="crm_lead_tree_inherits" model="ir.ui.view">
+            <field name="name">crm.lead.tree.inherits</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <field name="probability" position="after">
+                    <field name="weighted_revenue" sum="Weighted Value" optional="show"/>
+                </field>
+                <field name="probability" position="replace">
+                    <field name="probability"/>
+                </field>
+                <field name="email_from" position="replace">
+                </field>
+                <field name="phone" position="replace">
+                </field>
+                <field name="state_id" position="replace">
+                </field>
+                <field name="activity_date_deadline" position="replace">
+                     <field name="activity_date_deadline" optional="show" invisible="1"/>
+                </field>
+                <field name="activity_summary" position="replace">
+                </field>
+                <field name="user_id" position="replace">
+                </field>
+                <field name="tag_ids" position="replace">
+                </field>
+                <field name="priority" position="replace">
+                </field>
+            </field>
+    </record>
+
+    <record id="crm_res_users_inherits" model="ir.ui.view">
+        <field name="name">res.users.inherits</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_simple_form"/>
+        <field name="arch" type="xml">
+            <field name="mobile" position="after">
+                <field name="target_value"/>
+            </field>
+        </field>
+    </record>
+
+    
+
+    <record id="crm_res_partner_inherits" model="ir.ui.view">
+            <field name="name">res.partner.inherits</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+               
+                <xpath expr="//form/sheet/notebook/page/group/group/field[@name='user_id']" position="after">
+                    <field name="team_id" string="GEO"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/group/group/field[@name='user_id']" position="replace">
+                    <field name="user_id" domain="[('share', '=', False), ('sale_team_id', '=', team_id)]"/>
+                </xpath>
+                <!-- <xpath expr="//form/sheet/group/group/field[@name='category_id']" position="after">
+                    <field name="alias_name"/>
+                </xpath> -->
+                <field name="company_name" position="replace">
+                    <field name="company_name"/>
+                </field>
+
+            </field>
+    </record>
+
+
+
+    <record id="crm_lead_restriction_tree_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.tree.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_user_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="import">false</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_tree_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.tree.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="groups_id" eval="[(6, 0, [ref('restrict_export_lead')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                   
+                    <attribute name="export_xlsx">false</attribute>
+
+                </xpath>
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.form.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_user_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                    <attribute name="import">false</attribute>
+                </xpath>
+                <field name="stage_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <button name="%(action_drop_wizard)d" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+                <button name="%(action_crm_qualify_wizard)d" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+                <button name="%(action_won_wizard)d" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+                <button name="%(crm.crm_lead_lost_action)d" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+                
+                <button name="%(oodu_bd_inherits.action_won_wizard)d" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </button>
+               
+                <xpath expr="//form/sheet/group/group[5]/field[@name='user_id']" position="attributes">
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group/group[2]/field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group/group[2]/div/field[@name='partner_address_email']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_import_tree_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.import.tree.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_import_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="import">false</attribute>
+                </xpath>
+            </field>
+    </record>
+    <record id="crm_lead_restriction_create_tree_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.create.tree.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_create_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_create_tree_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.create.tree.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_create_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="export_xlsx">false</attribute>
+                </xpath>               
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_import_tree_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.import.tree.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_import_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="import">false</attribute>
+                </xpath>               
+            </field>
+    </record>
+
+   
+    <record id="crm_lead_tree_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+          
+            <xpath expr="//tree/field[@name='country_id']" position="after">
+                <field name="stage_id" position="after"/>
+            </xpath>
+            
+            <field name="name" position="replace">
+                <field name="name" string="Opportunity"/>
+            </field>
+        </field>
+    </record>
+    
+    <record id="crm_lead_restriction_edit_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.form.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_edit_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="edit">false</attribute>
+                </xpath>
+            </field>
+    </record>
+    <record id="crm_lead_restriction_create_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.forms.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_form_create_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_salesperson_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.salesperson.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_salesperson_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group[5]/field[@name='user_id']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                     <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+            </field>
+    </record>
+    <record id="crm_lead_restriction_salesteam_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.salesteam.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_salesteam_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group[5]/field[@name='team_id']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+    </record>
+
+    <record id="crm_lead_restriction_kanban_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.kanban.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_kanban_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="import">false</attribute>
+                </xpath>
+            </field>
+    </record>
+    <record id="crm_lead_restriction_create_kanban_form_group" model="ir.ui.view">
+            <field name="name">crm.lead.restriction.create.kanban.group</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_restriction_create_kanban_enable')])]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="create">false</attribute>
+                </xpath>
+            </field>
+    </record>
+      <record id="crm_lead_search_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.search.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <filter name="won" position="after">
+                    <filter string="Dropped" name="dropped" domain="[('drop_reason_id', '!=', False)]"/>
+                    <filter string="Qualified Out" name="qualified_out" domain="[('qualify_reason_id', '!=', False)]"/>
+                </filter>
+                <filter name="lost" position="replace">
+                    <filter string="Lost" name="lost_reason" domain="[('lost_reason', '!=', False)]"/>
+                </filter>
+
+            </field>
+    </record>
+
+    <record id="crm_activity_report_views_search" model="ir.ui.view">
+        <field name="name">crm.activity.reports.search</field>
+        <field name="model">crm.activity.report</field>
+        <field name="inherit_id" ref="crm.crm_activity_report_view_search"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//filter[@name='lost']" position="after">
+        		<filter string="Dropped" name="won_status" domain="[('won_status', '=', 'dropped')]"/>
+        	</xpath>
+        </field>
+    </record>
+
+
+     <record model="ir.ui.view" id="lead_tree_view_inherit">
+        <field name="name">lead.tree.views.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="groups_id" eval="[(4, ref('oodu_bd_inherits.group_disable_action_menu'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="/tree" position="attributes">
+               <attribute name="delete">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="lead_form_view_inherit">
+        <field name="name">lead.form.views.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="groups_id" eval="[(4, ref('oodu_bd_inherits.group_disable_action_menu'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form" position="attributes">
+               <attribute name="delete">false</attribute>
+            </xpath>
+            
+        </field>
+    </record>
+
+
+</odoo>

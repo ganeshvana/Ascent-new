@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+        
+    <templates id="web_menu_invisble" inherit_id="web.template">
+            
+        <!-- <xpath expr="//t[@t-name='UserMenu.Actions']" position="attributes">
+            <attribute name="groups">oodu_assent_user_menu_invisible_with_group.make_invisible_menus
+            </attribute>
+        </xpath> -->
+
+         <!-- <t t-extend="UserMenu.Actions" >
+            <t t-jquery=".dropdown-divider" t-operation="after">
+                <a role="menuitem" href="#" data-menu="shortcuts" class="dropdown-item d-none d-md-inline-block">Shortcutdds</a>
+            </t>
+        </t> -->
+        <t t-extend="UserMenu.Actions">
+            <t t-jquery=".dropdown-divider" t-operation="before">
+                <a role="menuitem" href="#" data-menu="shortcuts" class="dropdown-item d-none d-md-inline-block">cuts</a>
+                <a role="menuitem" href="#" data-menu="shortcuts" class="dropdown-item d-none d-md-inline-block">cuts</a>
+                <a role="menuitem" href="#" data-menu="shortcuts" class="dropdown-item d-none d-md-inline-block">cuts</a>
+            </t>
+        </t>
+
+    </templates>
+
+
+
+    
+
+
+
+
+<!-- <odoo>
+        <templates id="invisible_user_menu" inherit_id="web.template" >
+
+            <xpath expr="//t[@t-name='UserMenu.Actions']" position="replace">
+            
+
+            </xpath>
+            
+            <xpath expr="//t[@string='data-menu=Documentation']" position='replace'>
+                <menuitem name=""/>
+            </xpath>
+
+
+        </templates>
+</odoo>
+ -->
+<!-- <t t-name="UserMenu.Actions">
+
+                <a href="/web" data-menu="documentation" invisible="1">Documentation </a>
+
+                </t>
+ -->
+
+
+<!-- <odoo>
+
+
+    <record model="ir.ui.menu" id="base.next_id_2">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_move_in_receipt_type">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+
+</odoo>
+ -->

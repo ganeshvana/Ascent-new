@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3e311486-4efa-41cf-93df-4afae1505092" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1ZF80a0ZtcvGRZ1Yb4J0xxRGiLw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3e311486-4efa-41cf-93df-4afae1505092" name="Default Changelist" comment="" />
+      <created>1584423260424</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1584423260424</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="460" y="141" width="424" height="511" key="FileChooserDialogImpl" timestamp="1584428520460">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="460" y="141" width="424" height="511" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1584428520460" />
+    <state x="353" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1584423263915">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="353" y="224" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1584423263915" />
+  </component>
+</project>

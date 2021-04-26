@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_crm_target_form">
+            <field name="name">crm.target.form</field>
+            <field name="model">crm.target</field>
+            <field name="arch" type="xml">
+                <form string="FTP Srouce" attrs="{'readonly':[('state','=','done')]}" >
+                    <header >
+                        <button name="action_confirm_transfer" states="draft" string="Validate" type="object" class="oe_highlight"/>
+                        <!-- <button name="action_compute" states="draft" string="Compute Values" type="object" class="oe_highlight"/> -->
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" force_save="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="from_dates" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="to_date" attrs="{'readonly': [('state', '=', 'done')]}"/>
+                                <field name="currency_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                        <page name="Targets" string="Targets">
+                            <field name="target_line" widget="one2many" attrs="{'readonly': [('state', '=', 'done')]}" >
+                                <tree editable="bottom">
+                                    <field name="user_id"/>
+                                    <field name="team_id"/>
+                                    <field name="target"/>
+                                    <field name="target_pass" invisible="1"/>
+                                    <field name="actual" />
+                                    <field name="percentage" />
+                                    <field name="percentage_pass" invisible="1"/>
+                                    <field name="actual_pass" invisible="1"/>
+                                    <field name="pending" />
+                                    <!-- <button name="action_compute" string="Compute Values" type="object" class="oe_highlight"/> -->
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_crm_target_list" model="ir.ui.view">
+            <field name="name">crm.target.tree</field>
+            <field name="model">crm.target</field>
+            <field name="arch" type="xml">
+                <tree string="Targets">
+                    <field name="name"/>
+                    <field name="from_dates"/>
+                    <field name="to_date"/>
+                    <field name="currency_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_crm_target_list_tree" model="ir.ui.view">
+            <field name="name">crm.target_line.tree</field>
+            <field name="model">crm.target_line</field>
+            <field name="arch" type="xml">
+                <tree string="Targets">
+		    <field name="name" invisible="1"/>
+                    <field name="user_id"/>
+                    <field name="team_id"/>
+
+                    <field name="target"/>
+                    <field name="target_pass" invisible="1"/>
+                    <field name="actual" />
+                    <field name="actual_pass" invisible="1" />
+                    <field name="pending" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_target_line_pivot">
+            <field name="name">target.line.pivot</field>
+            <field name="model">crm.target_line</field>
+            <field name="arch" type="xml">
+                <pivot string="Target Lines">
+                    <field name="from_dates_date" type="col"/>
+                    <field name="to_date_dates" type="col"/>
+                    <field name="actual_pass" type="measure"/>
+                    <field name="pending_pass" type="measure"/>
+                    <field name="percentage_pass" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_target_line_graph" model="ir.ui.view">
+            <field name="name">target.line.graph</field>
+            <field name="model">crm.target_line</field>
+            <field name="arch" type="xml">
+                <graph string="Targets" >
+                    <field name="target" type="row" />
+                    <field name="pending_pass" type="row" />
+                    <field name="user_id" type="row"/>
+                    <field name="actual_pass" type="col"/>
+                    <field name="percentage_pass" type="col"/>
+
+                </graph>
+            </field>
+        </record>
+
+        <record id="crm_targets_view_filter_group" model="ir.ui.view">
+            <field name="name">target.line.search</field>
+            <field name="model">crm.target</field>
+            <field name="arch" type="xml">
+                <search string="Search Targets">
+                    <group expand="0" string="Group By">
+                        <filter string="Actual" name="actual" context="{'group_by':'actual_pass'}"/>
+                        <filter string="Pending" name="pending" context="{'group_by':'pending_pass'}"/>
+                        <filter string="Target" name="target" context="{'group_by':'target'}"/>
+                        <filter string="Person" name="user_id" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_view_crm_target_tree" model="ir.actions.act_window">
+            <field name="name">Target Report</field>
+            <field name="res_model">crm.target_line</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="search_view_id" ref="view_crm_target_list_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new record
+                </p>
+            </field>
+        </record>
+
+        <record id="action_view_crm_target" model="ir.actions.act_window">
+            <field name="name">Target</field>
+            <field name="res_model">crm.target</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_crm_target_list"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new record
+                </p>
+            </field>
+        </record>
+
+         <menuitem action="action_view_crm_target_tree" id="menu_action_view_crm_target_tree" name="Target Report" parent="crm.crm_menu_report" />
+
+        <menuitem action="action_view_crm_target" id="menu_action_view_crm_target" name="Target" parent="crm.crm_menu_sales" />
+    </data>
+</odoo>

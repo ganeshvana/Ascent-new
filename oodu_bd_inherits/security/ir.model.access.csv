@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_contract_entity,access_crm_lead_contract_entity,model_crm_lead_contract_entity,base.group_user,1,1,1,1
+access_crm_lead_delivering_entity,access_crm_lead_delivering_entity,model_crm_lead_delivering_entity,base.group_user,1,1,1,1
+access_crm_category,access_crm_category,model_crm_category,base.group_user,1,1,1,1
+access_crm_services,access_crm_services,model_crm_services,base.group_user,1,1,1,1
+access_crm_drop,access_crm_drop,model_crm_drop,base.group_user,1,1,1,1
+access_crm_drop_wizard,access_crm_drop_wizard,model_crm_drop_wizard,base.group_user,1,1,1,1
+access_crm_qualify_wizards,access_crm_qualify_wizards,model_crm_qualify_wizards,base.group_user,1,1,1,1
+access_crm_qualify,access_crm_qualify,model_crm_qualify,base.group_user,1,1,1,1
+access_crm_opportunity_type,access_crm_opportunity_type,model_crm_opportunity_type,base.group_user,1,1,1,1
+access_crm_competition,access_crm_competition,model_crm_competition,base.group_user,1,1,1,1
+access_crm_won_wizard,access_crm_won_wizard,model_crm_won_wizard,base.group_user,1,1,1,1
+access_crm_reason,access_crm_reason,model_crm_reason,base.group_user,1,1,1,1

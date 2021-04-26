@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="crm_lead_view_form_sales_team_extended" model="ir.ui.view">
+        <field name="name">crm.lead.inherited.crm</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="groups">sales_team_ext.group_change_sale_team</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
